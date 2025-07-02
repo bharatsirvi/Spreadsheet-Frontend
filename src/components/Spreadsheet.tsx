@@ -19,7 +19,7 @@ import { TbWorld } from "react-icons/tb";
 const Spreadsheet = () => {
   return (
     <div className="overflow-y-scroll border border-gray-100 font-[400] rounded-md shadow bg-white font-body">
-      <div className="overflow-y-auto max-h-[calc(100vh-174px)]">
+      <div className="overflow-y-auto max-h-[calc(100vh-150px)]">
         <table className="min-w-full table-fixed text-sm border-collapse">
           <thead className="sticky top-0 z-10 bg-white">
             <tr className="text-sm text-[#545454] h-8">
