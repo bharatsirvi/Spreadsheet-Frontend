@@ -7,7 +7,7 @@ const App = () => (
   <div className="min-h-screen bg-gray-50">
     <AppHeader />
     <Toolbar />
-    <div className="p-4 overflow-x-auto">
+    <div className="overflow-x-auto overflow-y-scroll">
       <Spreadsheet />
     </div>
     <BottomTabs />
