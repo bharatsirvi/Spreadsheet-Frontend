@@ -5,13 +5,23 @@ const tabs = ["All Orders", "Pending", "Reviewed", "Arrived"];
 
 const BottomPanel = () => {
   const [activeTab, setActiveTab] = useState("All Orders");
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    console.log(`Tab clicked: ${tab}`);
+  };
+
+  const handleAddClick = () => {
+    console.log("Add button clicked");
+  };
+
   return (
     <div className="flex h-12 ml-10 absolute bottom-0 left-0 right-0 z-10 pt-0.5 bg-[#FFFFFF]">
       {tabs.map((tab) => (
         <button
           key={tab}
-          onClick={() => setActiveTab(tab)}
-          className={`px-4 py-2.5 text-[16px] relative
+          onClick={() => handleTabClick(tab)}
+          className={`px-4 py-2.5 text-[16px] relative cursor-pointer
             ${
               activeTab === tab
                 ? "text-[#3E5741] bg-[#E8F0E9] font-semibold"
@@ -28,8 +38,10 @@ const BottomPanel = () => {
         </button>
       ))}
 
-    
-      <button className="px-4 py-2.5 text-[#757575] hover:bg-gray-100">
+      <button
+        className="px-4 py-2.5 text-[#757575] hover:bg-gray-100 cursor-pointer"
+        onClick={handleAddClick}
+      >
         <AiOutlinePlus size={20} />
       </button>
     </div>

@@ -17,6 +17,21 @@ import { IoCalendar } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
 
 const Spreadsheet = () => {
+  const handleHeaderPlusClick = () => {
+    console.log("Header plus button clicked");
+  };
+
+  const handleHeaderMoreClick = (header: string) => {
+    console.log(`More clicked for : ${header}`);
+  };
+
+  const handleColumnDropdownClick = (column: string) => {
+    console.log(`Dropdown clicked for column: ${column}`);
+  };
+  const handleRefreshClick = () => {
+    console.log("Refresh clicked");
+  };
+
   return (
     <div className="overflow-y-scroll border border-gray-100 font-[400] rounded-md shadow bg-white font-body">
       <div className="overflow-y-auto max-h-[calc(100vh-150px)]">
@@ -29,13 +44,16 @@ const Spreadsheet = () => {
                 className="bg-[#E2E2E2] px-3 py-1  border-t-0 border-gray-100 text-left"
               >
                 <span className="flex items-center gap-1 text-sm text-[#545454]">
-                  <div className="flex items-center gap-2 bg-[#EEEEEE] px-2 py-1.5 rounded-md">
+                  <div className="flex items-center gap-2 bg-[#EEEEEE] px-2 py-1 rounded-md">
                     <Link2 className="w-4 h-4 text-[#1A8CFF]" />
                     <span className="font-[400] text-xs text-[#545454]">
                       Q3 Financial Overview
                     </span>
                   </div>
-                  <RefreshCw className="w-4 h-4 text-orange-500 animate-spin-slow ml-2" />
+                  <RefreshCw
+                    onClick={handleRefreshClick}
+                    className="w-4 h-4 text-[#FA6736] animate-spin-slow ml-2 cursor-pointer"
+                  />
                 </span>
               </th>
               <th colSpan={1} />
@@ -46,7 +64,10 @@ const Spreadsheet = () => {
                 <span className="flex justify-center items-center gap-1.5 font-[500] text-[#463E59]">
                   <PiArrowsSplit className="w-4 h-4 text-[#A3ACA3]" />
                   <span>ABC</span>
-                  <BsThreeDots className="text-gray-400" />
+                  <BsThreeDots
+                    onClick={() => handleHeaderMoreClick("ABC")}
+                    className="text-[#AFAFAF] cursor-pointer"
+                  />
                 </span>
               </th>
               <th
@@ -56,7 +77,10 @@ const Spreadsheet = () => {
                 <span className="flex justify-center items-center gap-1.5 font-[500] text-[#463E59]">
                   <PiArrowsSplit className="w-4 h-4 text-white" />
                   <span>Answer a question</span>
-                  <BsThreeDots className="text-gray-400" />
+                  <BsThreeDots
+                    onClick={() => handleHeaderMoreClick("Answer a question")}
+                    className="text-[#AFAFAF] cursor-pointer"
+                  />
                 </span>
               </th>
               <th
@@ -66,11 +90,17 @@ const Spreadsheet = () => {
                 <span className="flex justify-center items-center gap-1.5 font-[500] text-[#463E59]">
                   <PiArrowsSplit className="w-4 h-4 text-white" />
                   <span>Extract</span>
-                  <BsThreeDots className="text-gray-400" />
+                  <BsThreeDots
+                    onClick={() => handleHeaderMoreClick("Extract")}
+                    className="text-[#AFAFAF] cursor-pointer"
+                  />
                 </span>
               </th>
-              <th className="bg-[#f5f6f8] w-30  font-[400] text-[#463E59] border-gray-100">
-                <span className="flex justify-center items-center gap-1.5 font-[500] text-[#463E59]">
+              <th
+                onClick={() => handleHeaderPlusClick()}
+                className="bg-[#f5f6f8] w-30  font-[400] text-[#463E59] border-gray-100"
+              >
+                <span className="flex justify-center items-center gap-1.5 font-[500] text-[#463E59] cursor-pointer">
                   <AiOutlinePlus size={20} />
                 </span>
               </th>
@@ -80,13 +110,16 @@ const Spreadsheet = () => {
               <th className="px-2 py-1 text-center text-gray-400 border border-gray-100">
                 <HiMiniHashtag className="w-5 h-5 text-[#AFAFAF] mx-auto" />
               </th>
-              <th className="px-2 py-1 border border-gray-100">
-                <div className="flex items-center justify-between">
+              <th className="px-2 py-1 border border-gray-100 ">
+                <div className="flex items-center justify-between ">
                   <span className="flex items-center gap-1">
                     <MdBusinessCenter className="w-4 h-4 text-[#AFAFAF]" /> Job
                     Request
                   </span>
-                  <MdKeyboardArrowDown className="w-4 h-4 text-[#AFAFAF]" />
+                  <MdKeyboardArrowDown
+                    onClick={() => handleColumnDropdownClick("Job Request")}
+                    className="w-4 h-4 text-[#AFAFAF] cursor-pointer"
+                  />
                 </div>
               </th>
               <th className="px-2 py-1 border border-gray-100">
@@ -95,7 +128,10 @@ const Spreadsheet = () => {
                     <IoCalendar className="w-3.5 h-3.5 text-[#AFAFAF]" />{" "}
                     Submitted
                   </span>
-                  <MdKeyboardArrowDown className="w-4 h-4 text-[#AFAFAF]" />
+                  <MdKeyboardArrowDown
+                    onClick={() => handleColumnDropdownClick("Submitted")}
+                    className="w-4 h-4 text-[#AFAFAF] cursor-pointer"
+                  />
                 </div>
               </th>
               <th className="px-2 py-1 border border-gray-100">
@@ -103,7 +139,10 @@ const Spreadsheet = () => {
                   <span className="flex items-center gap-1">
                     <FaClock className="w-3 h-3 text-[#AFAFAF]" /> Status
                   </span>
-                  <MdKeyboardArrowDown className="w-4 h-4 text-[#AFAFAF]" />
+                  <MdKeyboardArrowDown
+                    onClick={() => handleColumnDropdownClick("Status")}
+                    className="w-4 h-4 text-[#AFAFAF] cursor-pointer"
+                  />
                 </div>
               </th>
               <th className="px-2 py-1 border border-gray-100">
@@ -111,7 +150,10 @@ const Spreadsheet = () => {
                   <span className="flex items-center gap-1">
                     <FaUser className="w-3 h-3 text-[#AFAFAF]" /> Submitter
                   </span>
-                  <MdKeyboardArrowDown className="w-4 h-4 text-[#AFAFAF]" />
+                  <MdKeyboardArrowDown
+                    onClick={() => handleColumnDropdownClick("Submitter")}
+                    className="w-4 h-4 text-[#AFAFAF] cursor-pointer"
+                  />
                 </div>
               </th>
               <th className="px-2 py-1 border border-gray-100">
@@ -119,7 +161,10 @@ const Spreadsheet = () => {
                   <span className="flex items-center gap-1">
                     <TbWorld className="w-4 h-4 text-[#AFAFAF]" /> URL
                   </span>
-                  <MdKeyboardArrowDown className="w-4 h-4 text-[#AFAFAF]" />
+                  <MdKeyboardArrowDown
+                    onClick={() => handleColumnDropdownClick("URL")}
+                    className="w-4 h-4 text-[#AFAFAF] cursor-pointer"
+                  />
                 </div>
               </th>
               <th className="px-2 py-1 border border-gray-100 bg-[#E8F0E9]">
@@ -128,7 +173,10 @@ const Spreadsheet = () => {
                     <MdAssignmentInd className="w-4 h-4 text-[#AFAFAF]" />{" "}
                     Assigned
                   </span>
-                  <MdKeyboardArrowDown className="w-4 h-4 text-[#AFAFAF]" />
+                  <MdKeyboardArrowDown
+                    onClick={() => handleColumnDropdownClick("Assigned")}
+                    className="w-4 h-4 text-[#AFAFAF] cursor-pointer"
+                  />
                 </div>
               </th>
               <th className="px-2 py-1 border border-gray-100 bg-[#EAE3FC] text-left">
@@ -144,7 +192,7 @@ const Spreadsheet = () => {
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className=" w-full">
             {(
               [
                 ...rows,
@@ -157,22 +205,22 @@ const Spreadsheet = () => {
                 key={idx}
                 className="hover:bg-gray-50 h-8 text-xs text-[#121212]"
               >
-                <td className="px-2 py-1 border border-gray-200 text-center text-gray-500">
+                <td className="px-2 py-1 border border-gray-100 text-center text-gray-500">
                   {idx + 1}
                 </td>
-                <td className="px-2 py-1 border border-gray-200">
+                <td className="px-2 py-1 border border-gray-100">
                   {row?.jobRequest || ""}
                 </td>
-                <td className="px-2 py-1 border border-gray-200 text-left">
+                <td className="px-2 py-1 border border-gray-100 text-left">
                   {row?.submitted || ""}
                 </td>
-                <td className="px-2 py-1 border border-gray-200 text-center">
+                <td className="px-2 py-1 border border-gray-100 text-center">
                   {row?.status ? <StatusBadge status={row.status} /> : ""}
                 </td>
-                <td className="px-2 py-1 border border-gray-200">
+                <td className="px-2 py-1 border border-gray-100">
                   {row?.submitter || ""}
                 </td>
-                <td className="px-2 py-1 border border-gray-200 max-w-[140px] truncate">
+                <td className="px-2 py-1 border border-gray-100 max-w-[140px] truncate">
                   {row?.url ? (
                     <a
                       href={`https://${row.url}`}
@@ -185,20 +233,20 @@ const Spreadsheet = () => {
                     ""
                   )}
                 </td>
-                <td className="px-2 py-1 border border-gray-200">
+                <td className="px-2 py-1 border border-gray-100">
                   {row?.assigned || ""}
                 </td>
-                <td className="px-2 py-1 border border-gray-200 text-center">
+                <td className="px-2 py-1 border border-gray-100 text-center">
                   {row?.priority ? (
                     <PriorityLabel priority={row.priority} />
                   ) : (
                     ""
                   )}
                 </td>
-                <td className="px-2 py-1 border border-gray-200 text-right">
+                <td className="px-2 py-1 border border-gray-100 text-right">
                   {row?.dueDate || ""}
                 </td>
-                <td className="px-2 py-1 border border-gray-200 text-right">
+                <td className="px-2 py-1 border border-gray-100 text-right">
                   {row?.estValue ? `${row.estValue.toLocaleString()}` : ""}
                   {row?.estValue ? (
                     <span className="text-[#AFAFAF]"> ₹</span>
@@ -206,7 +254,7 @@ const Spreadsheet = () => {
                     ""
                   )}
                 </td>
-                <td className="w-30 py-1 border border-gray-200 text-center text-gray-400"></td>
+                <td className="w-30 py-1 border border-gray-100 text-center text-gray-400"></td>
               </tr>
             ))}
           </tbody>
