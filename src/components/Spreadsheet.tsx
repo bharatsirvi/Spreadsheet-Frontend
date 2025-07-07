@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { RowData } from "../types/Row";
 import { rows } from "../data/rows";
 import StatusBadge from "./table/StatusBadge";
@@ -16,7 +17,24 @@ import { HiMiniHashtag } from "react-icons/hi2";
 import { IoCalendar } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
 
+const columns = [
+  { key: "jobRequest", align: "left" },
+  { key: "submitted", align: "left" },
+  { key: "status", align: "center" },
+  { key: "submitter", align: "left" },
+  { key: "url", align: "left" },
+  { key: "assigned", align: "left" },
+  { key: "priority", align: "center" },
+  { key: "dueDate", align: "right" },
+  { key: "estValue", align: "right" },
+];
+
 const Spreadsheet = () => {
+  const [editCell, setEditCell] = useState<{ row: number; col: number } | null>(
+    null
+  );
+  const [tempValue, setTempValue] = useState<string>("");
+
   const handleHeaderPlusClick = () => {
     console.log("Header plus button clicked");
   };
@@ -30,6 +48,33 @@ const Spreadsheet = () => {
   };
   const handleRefreshClick = () => {
     console.log("Refresh clicked");
+  };
+
+  const getCellValue = (row: RowData | undefined, col: string) => {
+    if (!row) return "";
+    if (col === "priority" && row.priority)
+      return <PriorityLabel priority={row.priority} />;
+    if (col === "status" && row.status)
+      return <StatusBadge status={row.status} />;
+    if (col === "url" && row.url)
+      return (
+        <a
+          href={`https://${row.url}`}
+          target="_blank"
+          rel="noreferrer"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {row.url}
+        </a>
+      );
+    if (col === "estValue" && row.estValue)
+      return (
+        <>
+          {row.estValue.toLocaleString()}
+          <span className="text-[#AFAFAF]"> ₹</span>
+        </>
+      );
+    return row[col as keyof RowData] || "";
   };
 
   return (
@@ -200,60 +245,52 @@ const Spreadsheet = () => {
                   () => undefined
                 ),
               ] as (RowData | undefined)[]
-            ).map((row, idx) => (
+            ).map((row, rowIdx) => (
               <tr
-                key={idx}
+                key={rowIdx}
                 className="hover:bg-gray-50 h-8 text-xs text-[#121212]"
               >
                 <td className="px-2 py-1 border border-gray-100 text-center text-gray-500">
-                  {idx + 1}
+                  {rowIdx + 1}
                 </td>
-                <td className="px-2 py-1 border border-gray-100">
-                  {row?.jobRequest || ""}
-                </td>
-                <td className="px-2 py-1 border border-gray-100 text-left">
-                  {row?.submitted || ""}
-                </td>
-                <td className="px-2 py-1 border border-gray-100 text-center">
-                  {row?.status ? <StatusBadge status={row.status} /> : ""}
-                </td>
-                <td className="px-2 py-1 border border-gray-100">
-                  {row?.submitter || ""}
-                </td>
-                <td className="px-2 py-1 border border-gray-100 max-w-[140px] truncate">
-                  {row?.url ? (
-                    <a
-                      href={`https://${row.url}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {row.url}
-                    </a>
-                  ) : (
-                    ""
-                  )}
-                </td>
-                <td className="px-2 py-1 border border-gray-100">
-                  {row?.assigned || ""}
-                </td>
-                <td className="px-2 py-1 border border-gray-100 text-center">
-                  {row?.priority ? (
-                    <PriorityLabel priority={row.priority} />
-                  ) : (
-                    ""
-                  )}
-                </td>
-                <td className="px-2 py-1 border border-gray-100 text-right">
-                  {row?.dueDate || ""}
-                </td>
-                <td className="px-2 py-1 border border-gray-100 text-right">
-                  {row?.estValue ? `${row.estValue.toLocaleString()}` : ""}
-                  {row?.estValue ? (
-                    <span className="text-[#AFAFAF]"> ₹</span>
-                  ) : (
-                    ""
-                  )}
-                </td>
+                {columns.map((col, colIdx) => (
+                  <td
+                    key={col.key}
+                    className={`px-2 py-1 border text-${
+                      col.align
+                    } cursor-pointer ${
+                      editCell &&
+                      editCell.row === rowIdx &&
+                      editCell.col === colIdx
+                        ? "border-2 border-black"
+                        : "border-gray-100"
+                    }`}
+                    onClick={() => {
+                      setEditCell({ row: rowIdx, col: colIdx });
+                      setTempValue(
+                        row ? String(row[col.key as keyof RowData] ?? "") : ""
+                      );
+                    }}
+                  >
+                    {editCell &&
+                    editCell.row === rowIdx &&
+                    editCell.col === colIdx ? (
+                      <input
+                        className="w-full rounded text-xs outline-none"
+                        autoFocus
+                        value={tempValue}
+                        onChange={(e) => setTempValue(e.target.value)}
+                        onBlur={() => setEditCell(null)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === "Tab")
+                            setEditCell(null);
+                        }}
+                      />
+                    ) : (
+                      getCellValue(row, col.key)
+                    )}
+                  </td>
+                ))}
                 <td className="w-30 py-1 border border-gray-100 text-center text-gray-400"></td>
               </tr>
             ))}
