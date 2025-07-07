@@ -4,6 +4,10 @@ A React + TypeScript spreadsheet-like UI built with Vite and Tailwind CSS.
 You can navigate with arrow keys, and enjoy a modern, Excel-like experience.  
 **Note:** Data editing is temporary and not persisted.
 
+## 🚀 Live Demo
+
+[View Live Spreadsheet App](https://spreadsheet-view-pi.vercel.app/)
+
 ## Features
 
 - Editable table cells (click to edit, press Enter/Escape to finish)
