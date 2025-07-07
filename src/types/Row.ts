@@ -1,11 +1,12 @@
 export type RowData = {
-  jobRequest: string;
-  submitted: string;
-  status: "In-process" | "Complete" | "Blocked" | "Need to start";
-  submitter: string;
-  url: string;
-  assigned: string;
-  priority: "High" | "Medium" | "Low";
-  dueDate: string;
-  estValue: number;
+  jobRequest?: string;
+  submitted?: string;
+  status?: string;
+  submitter?: string;
+  url?: string;
+  assigned?: string;
+  priority?: string;
+  dueDate?: string;
+  estValue?: number;
+  [key: string]: string | number | undefined; 
 };

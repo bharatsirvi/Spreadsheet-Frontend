@@ -77,6 +77,73 @@ const Spreadsheet = () => {
     return row[col as keyof RowData] || "";
   };
 
+  const handleCellKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    rowIdx: number,
+    colIdx: number
+  ) => {
+    if (e.key === "Enter" || e.key === "Tab") {
+      setEditCell(null);
+      return;
+    }
+    if (e.key === "Escape") {
+      setEditCell(null);
+      return;
+    }
+    if (e.key === "ArrowRight") {
+      const nextCol = Math.min(colIdx + 1, columns.length - 1);
+      setEditCell({ row: rowIdx, col: nextCol });
+      setTempValue(
+        rows[rowIdx] ? String(rows[rowIdx][columns[nextCol].key] ?? "") : ""
+      );
+      setTimeout(() => {
+        const next = document.getElementById(
+          `cell-input-${rowIdx}-${nextCol}`
+        );
+        next?.focus();
+      }, 0);
+    }
+    if (e.key === "ArrowLeft") {
+      const prevCol = Math.max(colIdx - 1, 0);
+      setEditCell({ row: rowIdx, col: prevCol });
+      setTempValue(
+        rows[rowIdx] ? String(rows[rowIdx][columns[prevCol].key] ?? "") : ""
+      );
+      setTimeout(() => {
+        const prev = document.getElementById(
+          `cell-input-${rowIdx}-${prevCol}`
+        );
+        prev?.focus();
+      }, 0);
+    }
+    if (e.key === "ArrowDown") {
+      const nextRow = rowIdx + 1;
+      setEditCell({ row: nextRow, col: colIdx });
+      setTempValue(
+        rows[nextRow] ? String(rows[nextRow][columns[colIdx].key] ?? "") : ""
+      );
+      setTimeout(() => {
+        const down = document.getElementById(
+          `cell-input-${nextRow}-${colIdx}`
+        );
+        down?.focus();
+      }, 0);
+    }
+    if (e.key === "ArrowUp") {
+      const prevRow = Math.max(rowIdx - 1, 0);
+      setEditCell({ row: prevRow, col: colIdx });
+      setTempValue(
+        rows[prevRow] ? String(rows[prevRow][columns[colIdx].key] ?? "") : ""
+      );
+      setTimeout(() => {
+        const up = document.getElementById(
+          `cell-input-${prevRow}-${colIdx}`
+        );
+        up?.focus();
+      }, 0);
+    }
+  };
+
   return (
     <div className="overflow-y-scroll border border-gray-100 font-[400] rounded-md shadow bg-white font-body">
       <div className="overflow-y-auto max-h-[calc(100vh-150px)]">
@@ -276,15 +343,13 @@ const Spreadsheet = () => {
                     editCell.row === rowIdx &&
                     editCell.col === colIdx ? (
                       <input
+                        id={`cell-input-${rowIdx}-${colIdx}`}
                         className="w-full rounded text-xs outline-none"
                         autoFocus
                         value={tempValue}
                         onChange={(e) => setTempValue(e.target.value)}
                         onBlur={() => setEditCell(null)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === "Tab")
-                            setEditCell(null);
-                        }}
+                        onKeyDown={(e) => handleCellKeyDown(e, rowIdx, colIdx)}
                       />
                     ) : (
                       getCellValue(row, col.key)
